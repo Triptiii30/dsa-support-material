@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demand-Supply Matching Prototype | DSA PBL Project</title>
+  <meta name="description" content="Interactive prototype for multi-criteria demand-supply matching and logistics optimization using AVL Trees, Priority Queues, Graphs, and Dynamic Programming.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>DSA MatchGrid</h1>
+          <p>Demand-Supply Optimization Engine</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" id="navTabs">
+        <button class="tab-btn active" data-tab="tab-dashboard">
+          <span>📊</span> Dashboard
+        </button>
+        <button class="tab-btn" data-tab="tab-network">
+          <span>🌐</span> Network & MST
+        </button>
+        <button class="tab-btn" data-tab="tab-routing">
+          <span>📍</span> Routing
+        </button>
+        <button class="tab-btn" data-tab="tab-structures">
+          <span>🌳</span> AVL & Heap
+        </button>
+        <button class="tab-btn" data-tab="tab-dp">
+          <span>🧩</span> DP Lab
+        </button>
+        <button class="tab-btn" data-tab="tab-report">
+          <span>📑</span> Report 2
+        </button>
+      </nav>
+
+      <!-- System Status -->
+      <div class="nav-actions">
+        <div class="status-badge">
+          <span class="pulse-dot"></span>
+          <span>Engine Active</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="btnRunFullPipeline">
+          <span>▶</span> Run Pipeline
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+
+      <!-- ====================================================================
+           TAB 1: MATCHING DASHBOARD (PHASE 6 INTEGRATION)
+           ==================================================================== -->
+      <section class="view-section active" id="tab-dashboard">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>📦</span> End-to-End Demand-Supply Matching</h2>
+            <p>Unified pipeline combining AVL price indexing, Max-Heap priority, LCS specification tags, and Dijkstra shortest paths.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="btn btn-secondary btn-sm" id="btnRefreshMatches">↻ Re-compute Matches</button>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">📋</div>
+            <div class="stat-info">
+              <p>Demand Contracts</p>
+              <h3 id="statTotalDemands">6 Requests</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-emerald">🏭</div>
+            <div class="stat-info">
+              <p>Supplier Facilities</p>
+              <h3 id="statTotalSuppliers">6 Active</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">⚡</div>
+            <div class="stat-info">
+              <p>Fulfillment Rate</p>
+              <h3 id="statMatchRate">100% (6/6)</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">🛣️</div>
+            <div class="stat-info">
+              <p>MST Transit Backbone</p>
+              <h3 id="statMstCost">$168.00</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cargo Capacity & Knapsack Optimization Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>🚚</span> Fleet Payload Constraint (0/1 Knapsack Optimization)</h3>
+            <span class="badge badge-emerald" id="knapsackStatusBadge">Optimal Capacity Selected</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+            <div class="slider-container" style="flex: 1; min-width: 280px;">
+              <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Vehicle Fleet Capacity:</label>
+              <input type="range" class="slider" id="cargoSlider" min="100" max="400" value="250" step="10">
+              <span class="slider-val" id="cargoVal">250 units</span>
+            </div>
+            <div style="display: flex; gap: 1.5rem; align-items: center;">
+              <div>
+                <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Allocated Cargo:</span>
+                <div style="font-weight: 700; color: var(--text-main);" id="knapsackAllocatedUnits">250 / 250 units (100%)</div>
+              </div>
+              <div>
+                <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Total Urgency Index:</span>
+                <div style="font-weight: 700; color: var(--accent-emerald);" id="knapsackUtilityVal">3,566.40</div>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btnApplyKnapsack">Optimize Fleet</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matched Pairs Master Table -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>✨</span> Multi-Criteria Matched Contracts</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Scored via 40% LCS Specs + 30% Price + 30% Proximity</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="matchesTable">
+              <thead>
+                <tr>
+                  <th>Demand ID</th>
+                  <th>Client</th>
+                  <th>Category</th>
+                  <th>Supplier Matched</th>
+                  <th>Unit Price / Budget</th>
+                  <th>LCS Compatibility</th>
+                  <th>Dijkstra Route</th>
+                  <th>Match Score</th>
+                  <th>Total Cost</th>
+                </tr>
+              </thead>
+              <tbody id="matchesTableBody">
+                <!-- Dynamically populated via app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 2: LOGISTICS NETWORK & MST (PHASES 2 & 3)
+           ==================================================================== -->
+      <section class="view-section" id="tab-network">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>🌐</span> Regional Logistics Network & Spanning Trees</h2>
+            <p>Graph topological clustering, BFS/DFS tree discovery, and Kruskal vs Prim Minimum Cost Spanning Trees.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary btn-sm" id="btnResetGraph">All Links</button>
+            <button class="btn btn-primary btn-sm" id="btnShowKruskal">Kruskal's MST ($168)</button>
+            <button class="btn btn-success btn-sm" id="btnShowPrim">Prim's MST ($168)</button>
+            <button class="btn btn-secondary btn-sm" id="btnShowBfs">BFS Tree</button>
+            <button class="btn btn-secondary btn-sm" id="btnShowDfs">DFS Tree</button>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Interactive Network Canvas -->
+          <div class="canvas-wrapper">
+            <canvas id="networkCanvas"></canvas>
+            <div class="canvas-toolbar">
+              <span style="font-size: 0.75rem; color: var(--text-muted); padding: 0.2rem 0.5rem;">Click / Drag nodes</span>
+            </div>
+            <div class="canvas-legend">
+              <div class="legend-item"><div class="legend-color" style="background: #3b82f6;"></div><span>Hub Node</span></div>
+              <div class="legend-item"><div class="legend-color" style="background: #10b981;"></div><span>MST Artery</span></div>
+              <div class="legend-item"><div class="legend-color" style="background: #475569;"></div><span>Standard Road</span></div>
+            </div>
+          </div>
+
+          <!-- Network Statistics & MST Details -->
+          <div>
+            <div class="panel" style="margin-bottom: 1rem;">
+              <div class="panel-header">
+                <h3><span>⚖️</span> MST Performance Comparison</h3>
+                <span class="badge badge-emerald">Verified Equivalent Cost</span>
+              </div>
+              <table class="data-table" style="font-size: 0.8rem;">
+                <thead>
+                  <tr>
+                    <th>Algorithm</th>
+                    <th>Theoretical Complexity</th>
+                    <th>Runtime</th>
+                    <th>Evaluations</th>
+                    <th>Total Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Kruskal's (DSU)</strong></td>
+                    <td><code>O(E log V)</code></td>
+                    <td id="kruskalRuntime">0.090 ms</td>
+                    <td>12 edges</td>
+                    <td><strong style="color: var(--accent-emerald);">$168.00</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Prim's (Min-Heap)</strong></td>
+                    <td><code>O(E log V)</code></td>
+                    <td id="primRuntime">0.035 ms</td>
+                    <td>12 extractions</td>
+                    <td><strong style="color: var(--accent-emerald);">$168.00</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Connected Components Panel -->
+            <div class="panel">
+              <div class="panel-header">
+                <h3><span>📦</span> Connected Hub Clusters</h3>
+              </div>
+              <div id="clustersList" style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-radius: 8px;">
+                  <strong style="color: var(--accent-blue);">Cluster 1 (10 Main Regional Hubs):</strong>
+                  <p style="color: var(--text-muted); margin-top: 0.25rem;">North_Hub, Airport_Logistics_Center, Central_Square, Tech_Park, East_District, West_End, South_Port, Rural_Depot, Industrial_Zone_A, Harbor_Terminal</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-radius: 8px;">
+                  <strong style="color: var(--accent-purple);">Cluster 2 (2 Offshore Island Nodes):</strong>
+                  <p style="color: var(--text-muted); margin-top: 0.25rem;">Offshore_Island_Port, Island_Medical_Post (Isolated Component)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 3: ROUTING & SHORTEST PATHS (PHASE 4)
+           ==================================================================== -->
+      <section class="view-section" id="tab-routing">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>📍</span> Shortest Path Routing & Subsidies</h2>
+            <p>Compute optimal dispatch paths using Dijkstra or Bellman-Ford (with green subsidies & negative credits).</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: flex-end;">
+            <div class="form-group" style="min-width: 220px;">
+              <label for="routeOriginSelect">Origin Hub (Source)</label>
+              <select class="form-select" id="routeOriginSelect">
+                <!-- Dynamically filled -->
+              </select>
+            </div>
+            <div class="form-group" style="min-width: 220px;">
+              <label for="routeDestSelect">Destination Hub (Target)</label>
+              <select class="form-select" id="routeDestSelect">
+                <!-- Dynamically filled -->
+              </select>
+            </div>
+            <div class="form-group" style="min-width: 200px;">
+              <label for="routeAlgoSelect">Routing Algorithm</label>
+              <select class="form-select" id="routeAlgoSelect">
+                <option value="dijkstra">Dijkstra's (Standard Weights)</option>
+                <option value="bellman">Bellman-Ford (With Green Subsidies)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="btnCalculateRoute" style="margin-bottom: 2px;">
+              <span>🚀</span> Find Shortest Path
+            </button>
+          </div>
+        </div>
+
+        <!-- Route Result Card -->
+        <div class="panel" id="routeResultPanel">
+          <div class="panel-header">
+            <h3><span>🎯</span> Optimal Logistics Route Result</h3>
+            <span class="badge badge-blue" id="routeCostBadge">$0.00 Total Transit</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan);" id="routePathDisplay">
+              North_Hub ➔ Airport_Logistics_Center
+            </div>
+          </div>
+          <div id="routeBreakdown" style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Floyd-Warshall APSP Matrix Preview -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>📐</span> Floyd-Warshall All-Pairs Shortest Path Matrix</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Complete O(V³) Dispatch Matrix</span>
+          </div>
+          <div class="table-responsive" style="max-height: 300px;">
+            <table class="data-table" id="floydTable" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;">
+              <!-- Populated via JS -->
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 4: AVL & HEAP VISUALIZER (PHASE 1)
+           ==================================================================== -->
+      <section class="view-section" id="tab-structures">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>🌳</span> Self-Balancing AVL Tree & Binary Heap</h2>
+            <p>Interactive self-balancing search tree indexing suppliers by price, and Binary Max-Heap priority queue.</p>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- AVL Tree Visualizer Panel -->
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>🌲</span> AVL Tree (Price Index)</h3>
+              <span class="badge badge-emerald">Strictly Balanced (-1 ≤ BF ≤ 1)</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+              <input type="number" class="form-input" id="avlPriceInput" placeholder="Price ($)" style="width: 110px;" value="95">
+              <input type="text" class="form-input" id="avlSupplierInput" placeholder="Supplier Name" style="flex: 1;" value="Apex Metals">
+              <button class="btn btn-primary btn-sm" id="btnInsertAvl">Insert</button>
+            </div>
+            <div class="canvas-wrapper" style="height: 380px;">
+              <canvas id="avlCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Binary Max-Heap Priority Queue Panel -->
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>⚡</span> Binary Max-Heap (Demand Priority Queue)</h3>
+              <span class="badge badge-purple">Max Priority at Root</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+              <input type="number" class="form-input" id="heapUrgencyInput" placeholder="Urgency (1-10)" style="width: 140px;" value="10">
+              <input type="text" class="form-input" id="heapClientInput" placeholder="Client Name" style="flex: 1;" value="Emergency Trauma">
+              <button class="btn btn-success btn-sm" id="btnPushHeap">Push Demand</button>
+              <button class="btn btn-secondary btn-sm" id="btnPopHeap">Pop Max</button>
+            </div>
+            <div class="canvas-wrapper" style="height: 380px;">
+              <canvas id="heapCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 5: DYNAMIC PROGRAMMING LAB (PHASE 5)
+           ==================================================================== -->
+      <section class="view-section" id="tab-dp">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>🧩</span> Dynamic Programming Applications</h2>
+            <p>0/1 Knapsack, Longest Common Subsequence (LCS), Matrix Chain Multiplication, and Resource Allocation.</p>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- 0/1 Knapsack Matrix View -->
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>🎒</span> 0/1 Knapsack Decision Table</h3>
+              <span class="badge badge-blue">Time: O(N·W) vs O(2ᴺ)</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+              Backtracking path highlights optimal demand subsets fulfilling vehicle payload constraints.
+            </p>
+            <div class="dp-matrix-container" id="knapsackMatrixContainer">
+              <!-- Matrix injected by app.js -->
+            </div>
+          </div>
+
+          <!-- LCS Tag Matching Panel -->
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>🧬</span> LCS Contract Specification Matching</h3>
+              <span class="badge badge-emerald">Similarity Alignment</span>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="font-size: 0.75rem; color: var(--text-dim);">Demand Tags (Hospital Contract):</label>
+              <div style="margin-top: 0.25rem;">
+                <span class="tag-pill" style="border: 1px solid var(--accent-blue);">sterile</span>
+                <span class="tag-pill" style="border: 1px solid var(--accent-blue);">cold_chain</span>
+                <span class="tag-pill" style="border: 1px solid var(--accent-blue);">express</span>
+                <span class="tag-pill" style="border: 1px solid var(--accent-blue);">certified</span>
+                <span class="tag-pill" style="border: 1px solid var(--accent-blue);">insured</span>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="font-size: 0.75rem; color: var(--text-dim);">Supplier Capability Tags (BioPharm Global):</label>
+              <div style="margin-top: 0.25rem;">
+                <span class="tag-pill" style="border: 1px solid var(--accent-emerald);">sterile</span>
+                <span class="tag-pill" style="border: 1px solid var(--accent-emerald);">cold_chain</span>
+                <span class="tag-pill" style="border: 1px solid var(--accent-emerald);">express</span>
+                <span class="tag-pill" style="border: 1px solid var(--accent-emerald);">certified</span>
+              </div>
+            </div>
+            <div class="terminal-box" style="height: 180px;" id="lcsOutputBox">
+Longest Common Subsequence (LCS): ['sterile', 'cold_chain', 'express', 'certified']
+LCS Match Length: 4 tags
+Sorensen-Dice Contract Match Score: 88.9%
+Theoretical Complexity: O(M * N) = 5 * 4 = 20 DP table cell evaluations
+            </div>
+          </div>
+        </div>
+
+        <!-- Matrix Chain Multiplication & Resource Allocation Grid -->
+        <div class="grid-2col">
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>⚙️</span> Matrix Chain Multiplication (Logistics Pipeline)</h3>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              Optimizing staging sequence: Intake (10x30) ➔ Sorting (30x5) ➔ Packaging (5x60) ➔ Dispatch (60x10).
+            </p>
+            <div class="terminal-box" style="height: 160px;">
+Minimum Operational Cost: 5,000 scalar operations
+Optimal Hierarchical Grouping: ((Intake * Sorting) * (Packaging * Dispatch))
+Complexity: O(N³) DP eliminates Catalan number combinatorial explosion!
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>🏥</span> Resource Allocation (Multi-Center Utility)</h3>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              Allocating 6 emergency response vehicles across 3 centers with diminishing marginal returns.
+            </p>
+            <div class="terminal-box" style="height: 160px;">
+Total Vehicles Available: 6 units
+Maximum Social Utility Score: 104.0
+  ➔ North Emergency Clinic    : 2 vehicles (Utility: 32.0)
+  ➔ Central Trauma Center     : 3 vehicles (Utility: 60.0)
+  ➔ South Community Shelter   : 1 vehicle  (Utility: 12.0)
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 6: REPORT 2 & BENCHMARK (PHASE 7)
+           ==================================================================== -->
+      <section class="view-section" id="tab-report">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>📑</span> Documentation for Report 2</h2>
+            <p>Algorithmic comparison matrices, current milestone status (~65%), and future AI/ML roadmap.</p>
+          </div>
+        </div>
+
+        <!-- Master Complexity Table -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>📊</span> Algorithm Complexity & Empirical Performance Matrix</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" style="font-size: 0.8rem;">
+              <thead>
+                <tr>
+                  <th>Phase & Module</th>
+                  <th>Algorithm</th>
+                  <th>Time Complexity</th>
+                  <th>Space Complexity</th>
+                  <th>Empirical Runtime</th>
+                  <th>System Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Phase 1: Structures</strong></td>
+                  <td>AVL Tree Index</td>
+                  <td><code>O(log N)</code></td>
+                  <td><code>O(N)</code></td>
+                  <td>&lt; 0.05 ms</td>
+                  <td>Supplier price & urgency search</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 1: Structures</strong></td>
+                  <td>Binary Max-Heap</td>
+                  <td><code>O(log N)</code> push/pop</td>
+                  <td><code>O(N)</code></td>
+                  <td>&lt; 0.02 ms</td>
+                  <td>Priority order retrieval</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 2: Traversal</strong></td>
+                  <td>BFS / DFS Clusters</td>
+                  <td><code>O(V + E)</code></td>
+                  <td><code>O(V)</code></td>
+                  <td>&lt; 0.04 ms</td>
+                  <td>Isolate unreachable network zones</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 3: MST</strong></td>
+                  <td>Kruskal's Algorithm (DSU)</td>
+                  <td><code>O(E log V)</code></td>
+                  <td><code>O(V + E)</code></td>
+                  <td>0.090 ms</td>
+                  <td>Sparse infrastructure backbone</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 3: MST</strong></td>
+                  <td>Prim's Algorithm (Heap)</td>
+                  <td><code>O(E log V)</code></td>
+                  <td><code>O(V + E)</code></td>
+                  <td>0.035 ms</td>
+                  <td>Dense infrastructure backbone</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 4: Routing</strong></td>
+                  <td>Dijkstra's Algorithm</td>
+                  <td><code>O((V + E) log V)</code></td>
+                  <td><code>O(V + E)</code></td>
+                  <td>0.042 ms</td>
+                  <td>Nearest supplier dispatch route</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 4: Routing</strong></td>
+                  <td>Bellman-Ford Algorithm</td>
+                  <td><code>O(V · E)</code></td>
+                  <td><code>O(V)</code></td>
+                  <td>0.088 ms</td>
+                  <td>Subsidized routes & green credits</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 5: DP</strong></td>
+                  <td>0/1 Knapsack</td>
+                  <td><code>O(N · W)</code></td>
+                  <td><code>O(N · W)</code></td>
+                  <td>0.204 ms</td>
+                  <td>Vehicle cargo quota optimization</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 5: DP</strong></td>
+                  <td>LCS Tag Matching</td>
+                  <td><code>O(M · N)</code></td>
+                  <td><code>O(M · N)</code></td>
+                  <td>0.012 ms</td>
+                  <td>Contract specification scoring</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Challenges & Future Roadmap -->
+        <div class="grid-2col">
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>💡</span> Technical Challenges & Corrective Actions</h3>
+            </div>
+            <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem; color: var(--text-muted);">
+              <p><strong style="color: var(--text-main);">1. Duplicate Keys in AVL Tree:</strong> Overwriting prevented by implementing bucket lists in each node.</p>
+              <p><strong style="color: var(--text-main);">2. Negative Subsidies in Routing:</strong> Dijkstra fails on negative edge credits. Solved by routing subsidized freight through Bellman-Ford.</p>
+              <p><strong style="color: var(--text-main);">3. Disconnected Transportation Islands:</strong> Graph connected components identify unreachable clusters prior to dispatch.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>🚀</span> Project Status (~65%) & AI/ML Roadmap</h3>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+              <p><strong style="color: var(--accent-emerald);">Current Milestone:</strong> Phases 1 through 6 complete and fully operational.</p>
+              <p style="margin-top: 0.5rem;"><strong style="color: var(--accent-blue);">Roadmap for Final Review:</strong></p>
+              <ul style="margin-left: 1.25rem; margin-top: 0.25rem;">
+                <li>LSTM neural networks for dynamic demand surge forecasting.</li>
+                <li>Graph Neural Networks (GNNs) for latent supplier-demand embeddings.</li>
+                <li>Deep Reinforcement Learning (PPO) for real-time fleet dispatching.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      Demand-Supply Matching Prototype | DSA Project-Based Learning (PBL) | Built with Vanilla HTML5, CSS3, & Modern ES6 JavaScript
+    </footer>
+
+  </div>
+
+  <!-- Main JavaScript Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
