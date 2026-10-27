@@ -617,20 +617,203 @@ canvas:active {
   font-weight: bold;
 }
 
-/* Code / Output Box */
-.terminal-box {
-  background: #0b0f19;
+/* --------------------------------------------------------------------------
+   Unit 4: TSP & Route Visualizer Styles
+   -------------------------------------------------------------------------- */
+.hub-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.hub-checkbox-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.hub-checkbox-pill:hover {
+  border-color: var(--accent-blue);
+  color: var(--text-main);
+}
+
+.hub-checkbox-pill input[type="checkbox"] {
+  accent-color: var(--accent-blue);
+  cursor: pointer;
+}
+
+.hub-checkbox-pill.checked {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: var(--accent-blue);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.route-steps-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.7);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
-  padding: 1rem;
+}
+
+.route-node-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+  border: 1px solid var(--accent-blue);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.route-arrow {
+  color: var(--accent-cyan);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Unit 5: B+ Tree Hierarchy Visualizer Styles
+   -------------------------------------------------------------------------- */
+.bpt-hierarchy-canvas {
+  padding: 1.5rem;
+  background: #090d16;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.bpt-level {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.bpt-level-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.4rem;
+}
+
+.bpt-node {
+  background: rgba(19, 27, 46, 0.9);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.9rem;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.bpt-node.internal {
+  border-color: var(--accent-blue);
+  background: rgba(30, 58, 138, 0.25);
+}
+
+.bpt-node.leaf {
+  border-color: var(--accent-emerald);
+  background: rgba(6, 78, 59, 0.25);
+  position: relative;
+}
+
+.bpt-key-chip {
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
-  color: #38bdf8;
-  max-height: 380px;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  line-height: 1.45;
+  font-weight: 600;
+  color: #ffffff;
 }
+
+.bpt-leaf-arrow {
+  color: var(--accent-emerald);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Final Report Download Cards
+   -------------------------------------------------------------------------- */
+.report-hero-card {
+  background: linear-gradient(135deg, rgba(27, 54, 93, 0.4), rgba(15, 23, 42, 0.8));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.report-hero-info h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+}
+
+.report-hero-info p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 600px;
+}
+
+.report-download-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-download-pdf {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+  color: #ffffff;
+}
+
+.btn-download-pdf:hover {
+  box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-download-docx {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+}
+
+.btn-download-docx:hover {
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+  transform: translateY(-2px);
+}
+
 
 /* --------------------------------------------------------------------------
    Footer
