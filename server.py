@@ -32,6 +32,26 @@ class DSAApiHandler(SimpleHTTPRequestHandler):
             query_params = urllib.parse.parse_qs(parsed_path.query)
             status_code, data = dispatch_api_request(parsed_path.path, query_params)
             self._send_json(data, status=status_code)
+        elif parsed_path.path.startswith("/docs/"):
+            rel_file = parsed_path.path[6:]
+            doc_file = os.path.join(PROJECT_ROOT, "docs", rel_file)
+            if os.path.isfile(doc_file):
+                self.send_response(200)
+                if doc_file.endswith(".pdf"):
+                    self.send_header("Content-Type", "application/pdf")
+                elif doc_file.endswith(".docx"):
+                    self.send_header("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                elif doc_file.endswith(".md"):
+                    self.send_header("Content-Type", "text/markdown; charset=utf-8")
+                else:
+                    self.send_header("Content-Type", "application/octet-stream")
+                self.send_header("Content-Length", str(os.path.getsize(doc_file)))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                with open(doc_file, "rb") as f:
+                    self.wfile.write(f.read())
+            else:
+                self.send_error(404, "File Not Found")
         else:
             # Fallback to static file serving from WEB_DIR
             super().do_GET()

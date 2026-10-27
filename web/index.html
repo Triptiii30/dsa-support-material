@@ -25,6 +25,14 @@
         <button class="tab-btn active" data-tab="tab-dashboard">
           <span>📊</span> Dashboard
         </button>
+        <button class="tab-btn" data-tab="tab-tsp" style="position: relative;">
+          <span>🔄</span> <strong>Unit 4: TSP (B&B)</strong>
+          <span style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; font-size: 0.65rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; font-weight: 700;">REVIEW</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-bplus" style="position: relative;">
+          <span>🌲</span> <strong>Unit 5: B+ Tree</strong>
+          <span style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid #3b82f6; font-size: 0.65rem; padding: 1px 6px; border-radius: 4px; margin-left: 4px; font-weight: 700;">REVIEW</span>
+        </button>
         <button class="tab-btn" data-tab="tab-network">
           <span>🌐</span> Network & MST
         </button>
@@ -38,7 +46,7 @@
           <span>🧩</span> DP Lab
         </button>
         <button class="tab-btn" data-tab="tab-report">
-          <span>📑</span> Report 2
+          <span>📑</span> Final Report
         </button>
       </nav>
 
@@ -64,15 +72,15 @@
         <div class="section-header">
           <div class="section-title">
             <h2><span>📦</span> End-to-End Demand-Supply Matching</h2>
-            <p>Unified pipeline combining AVL price indexing, Max-Heap priority, LCS specification tags, and Dijkstra shortest paths.</p>
+            <p>Unified pipeline combining AVL price indexing, Max-Heap priority, LCS specification tags, Dijkstra shortest paths, TSP Branch & Bound, and B+ Tree catalog.</p>
           </div>
           <div style="display: flex; gap: 0.75rem;">
             <button class="btn btn-secondary btn-sm" id="btnRefreshMatches">↻ Re-compute Matches</button>
           </div>
         </div>
 
-        <!-- Metric KPI Cards -->
-        <div class="stats-grid">
+        <!-- Metric KPI Cards (Includes Unit 4 & Unit 5) -->
+        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
           <div class="stat-card">
             <div class="stat-icon icon-blue">📋</div>
             <div class="stat-info">
@@ -99,6 +107,115 @@
             <div class="stat-info">
               <p>MST Transit Backbone</p>
               <h3 id="statMstCost">$168.00</h3>
+            </div>
+          </div>
+          <div class="stat-card" style="border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="document.querySelector('[data-tab=\'tab-tsp\']').click()" title="Click to view Unit 4 TSP Module">
+            <div class="stat-icon icon-emerald">🔄</div>
+            <div class="stat-info">
+              <p>Unit 4: Optimal Tour (B&B)</p>
+              <h3 style="color: var(--accent-emerald);">$125.00 <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 400;">(15 cuts)</span></h3>
+            </div>
+          </div>
+          <div class="stat-card" style="border: 1px solid rgba(59, 130, 246, 0.4); cursor: pointer;" onclick="document.querySelector('[data-tab=\'tab-bplus\']').click()" title="Click to view Unit 5 B+ Tree Module">
+            <div class="stat-icon icon-blue">🌲</div>
+            <div class="stat-info">
+              <p>Unit 5: B+ Tree Index</p>
+              <h3 style="color: var(--accent-blue);">M = 3 <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 400;">(0.0019 ms)</span></h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             FINAL REVIEW HIGHLIGHT: UNIT 4 (TSP B&B) & UNIT 5 (B+ TREE) SHOWCASE
+             ==================================================================== -->
+        <div class="panel" style="border: 1px solid rgba(16, 185, 129, 0.35); background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(59, 130, 246, 0.05)); margin-bottom: 1.5rem;">
+          <div class="panel-header" style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="font-size: 1.4rem;">⭐</span>
+              <div>
+                <h3 style="margin: 0; color: #fff; font-size: 1.1rem;">Final Review Syllabus Modules (Unit 4 & Unit 5)</h3>
+                <p style="margin: 0.15rem 0 0 0; font-size: 0.78rem; color: var(--text-muted);">
+                  Interactive implementations fulfilling syllabus requirements for Branch and Bound and Multi-Way Tree indexing.
+                </p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-success btn-xs" onclick="document.querySelector('[data-tab=\'tab-tsp\']').click()">Open Unit 4: TSP Tab ➔</button>
+              <button class="btn btn-primary btn-xs" onclick="document.querySelector('[data-tab=\'tab-bplus\']').click()">Open Unit 5: B+ Tree Tab ➔</button>
+            </div>
+          </div>
+
+          <div class="grid-2col" style="gap: 1.25rem;">
+            <!-- Unit 4 Preview Card -->
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: 1.1rem; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <div>
+                    <span class="badge badge-emerald" style="margin-bottom: 0.3rem; display: inline-block;">Unit 4: Branch & Bound</span>
+                    <h4 style="margin: 0; color: #fff; font-size: 0.95rem;">Travelling Salesman Problem (LCBB)</h4>
+                  </div>
+                  <span class="badge badge-blue">Verified $125.00</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.4;">
+                  Least-Cost Branch & Bound with genuine Row/Column Matrix Reduction lower bounds ($100.00) and pruning of 15 sub-optimal subtrees.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 0.75rem; text-align: center;">
+                  <div style="background: rgba(255,255,255,0.03); padding: 0.4rem; border-radius: 6px;">
+                    <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Optimal Cost</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--accent-emerald);">$125.00</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.03); padding: 0.4rem; border-radius: 6px;">
+                    <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Initial Bound</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--accent-blue);">$100.00</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.03); padding: 0.4rem; border-radius: 6px;">
+                    <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Branches Pruned</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--accent-amber);">15 Cuts</div>
+                  </div>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 0.55rem; border-radius: 6px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); overflow-x: auto; white-space: nowrap; margin-bottom: 0.75rem;">
+                  Route: North_Hub ➔ Airport ➔ Tech_Park ➔ Central ➔ East ➔ North_Hub
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="document.querySelector('[data-tab=\'tab-tsp\']').click()">
+                <span>🔄</span> Configure Hubs & Run Benchmark 4 & 5
+              </button>
+            </div>
+
+            <!-- Unit 5 Preview Card -->
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-md); padding: 1.1rem; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <div>
+                    <span class="badge badge-blue" style="margin-bottom: 0.3rem; display: inline-block;">Unit 5: Advanced Search Trees</span>
+                    <h4 style="margin: 0; color: #fff; font-size: 0.95rem;">B+ Tree Dynamic Catalog Index</h4>
+                  </div>
+                  <span class="badge badge-emerald">Order M=3</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.4;">
+                  Multi-level self-balancing B+ Tree indexing supplier unit prices with internal median promotion, node splitting, and leaf doubly-linked range traversal.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 0.75rem; text-align: center;">
+                  <div style="background: rgba(255,255,255,0.03); padding: 0.4rem; border-radius: 6px;">
+                    <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Tree Order</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--accent-blue);">M = 3</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.03); padding: 0.4rem; border-radius: 6px;">
+                    <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Point Lookup</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--accent-emerald);">0.0019 ms</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.03); padding: 0.4rem; border-radius: 6px;">
+                    <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Range Query</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--accent-purple);">0.0047 ms</div>
+                  </div>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 0.55rem; border-radius: 6px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); overflow-x: auto; white-space: nowrap; margin-bottom: 0.75rem;">
+                  Leaves Linked: [$25.00, $40.00] ⮂➔ [$88.00, $110.00] ⮂➔ [$135.00, $260.00]
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="document.querySelector('[data-tab=\'tab-bplus\']').click()">
+                <span>🌲</span> Query Range & Test Dynamic Splitting
+              </button>
             </div>
           </div>
         </div>
@@ -456,135 +573,440 @@ Maximum Social Utility Score: 104.0
       </section>
 
       <!-- ====================================================================
-           TAB 6: REPORT 2 & BENCHMARK (PHASE 7)
+           TAB 4: UNIT 4 - TRAVELLING SALESMAN PROBLEM (BRANCH & BOUND)
+           ==================================================================== -->
+      <section class="view-section" id="tab-tsp">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>🔄</span> Unit 4: Travelling Salesman Problem (Branch & Bound)</h2>
+            <p>Optimal multi-stop closed delivery tour scheduling via Least-Cost Branch and Bound (LCBB) with Matrix Reduction.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary btn-sm" id="btnTspBenchmark4">🧪 4-City Benchmark</button>
+            <button class="btn btn-secondary btn-sm" id="btnTspBenchmark5">🧪 5-City Benchmark</button>
+            <button class="btn btn-primary btn-sm" id="btnSolveTsp">🚀 Solve Logistics Tour</button>
+          </div>
+        </div>
+
+        <!-- Hub Selector Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>📍</span> Select Regional Hubs to Visit in Dispatch Tour</h3>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary btn-xs" id="btnSelectCoreHubs">Select Core 5</button>
+              <button class="btn btn-secondary btn-xs" id="btnSelectAllHubs">Select All</button>
+            </div>
+          </div>
+          <div class="hub-checkbox-group" id="tspHubCheckboxGroup">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-emerald">💰</div>
+            <div class="stat-info">
+              <p>Optimal Closed Tour Cost</p>
+              <h3 id="statTspBestCost">$125.00</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">📉</div>
+            <div class="stat-info">
+              <p>Initial Lower Bound</p>
+              <h3 id="statTspLowerBound">$100.00</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">✂️</div>
+            <div class="stat-info">
+              <p>Sub-optimal Branches Pruned</p>
+              <h3 id="statTspBranchesPruned">15 Branches</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">⏱️</div>
+            <div class="stat-info">
+              <p>Search Nodes / Runtime</p>
+              <h3 id="statTspRuntime">29 Nodes | 0.36 ms</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tour Flow Sequence Card -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>🛣️</span> Verified Optimal Dispatch Sequence</h3>
+            <span class="badge badge-emerald" id="tspVerificationBadge">Optimal Tour Found</span>
+          </div>
+          <div class="route-steps-wrapper" id="tspRouteStepsContainer">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Transit Leg Breakdown Table & Pruning Log -->
+        <div class="grid-2col">
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>📋</span> Transit Leg Distance Breakdown</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table" style="font-size: 0.82rem;">
+                <thead>
+                  <tr>
+                    <th>Leg #</th>
+                    <th>From Location</th>
+                    <th>To Location</th>
+                    <th>Transit Cost</th>
+                  </tr>
+                </thead>
+                <tbody id="tspLegsTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3><span>🧠</span> LCBB State Space Tree Log</h3>
+            </div>
+            <div class="terminal-box" id="tspTerminalBox">
+[INFO] Least-Cost Branch and Bound (LCBB) initialized.
+[MATRIX REDUCTION] Row reduction sum: $65.00 | Column reduction sum: $35.00
+[ROOT BOUND] Initial lower bound: $100.00
+[BRANCHING] Generating state space tree using Priority Queue (Min-Heap).
+[PRUNING] Bound exceeds BestCost ($125.00) -> Pruning 15 sub-optimal subtrees.
+[OPTIMAL] Completed closed tour: North_Hub -> Airport -> Tech_Park -> Central -> East -> North_Hub (Cost: $125.00).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 5: UNIT 5 - B+ TREE CATALOG INDEXING
+           ==================================================================== -->
+      <section class="view-section" id="tab-bplus">
+        <div class="section-header">
+          <div class="section-title">
+            <h2><span>🌲</span> Unit 5: B+ Tree Catalog Indexing Engine</h2>
+            <p>Multi-level self-balancing indexing (Order M=3) with node splitting, O(log N) point lookups, and O(log N + K) range queries.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary btn-sm" id="btnBplusScanAll">📄 Scan All Leaves</button>
+            <button class="btn btn-primary btn-sm" id="btnBplusReset">↻ Reset Catalog Tree</button>
+          </div>
+        </div>
+
+        <!-- Interactive Query Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>🔍</span> Catalog Queries (Point Search & Procurement Price Window)</h3>
+          </div>
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: flex-end;">
+            <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+              <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Exact Unit Price ($):</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="number" id="inputBplusSearchPrice" value="88.0" step="1" style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.45rem 0.75rem; color: #fff; width: 110px;">
+                <button class="btn btn-secondary btn-sm" id="btnBplusSearch">Search</button>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+              <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Price Range Window ($):</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="number" id="inputBplusMinPrice" value="35.0" step="5" style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.45rem 0.75rem; color: #fff; width: 100px;">
+                <span style="color: var(--text-dim); font-size: 0.8rem;">to</span>
+                <input type="number" id="inputBplusMaxPrice" value="120.0" step="5" style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.45rem 0.75rem; color: #fff; width: 100px;">
+                <button class="btn btn-primary btn-sm" id="btnBplusRange">Query Range</button>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.3rem; margin-left: auto;">
+              <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Insert Dynamic Item:</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="number" id="inputBplusNewPrice" placeholder="Price" value="65.0" style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.45rem 0.75rem; color: #fff; width: 90px;">
+                <input type="text" id="inputBplusNewName" placeholder="Supplier" value="Apex Medical Lab" style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.45rem 0.75rem; color: #fff; width: 140px;">
+                <button class="btn btn-secondary btn-sm" id="btnBplusInsert">Insert & Split</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">🌳</div>
+            <div class="stat-info">
+              <p>Tree Order (M)</p>
+              <h3 id="statBplusOrder">M = 3 (Max 2 keys)</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-emerald">📊</div>
+            <div class="stat-info">
+              <p>Current Tree Depth</p>
+              <h3 id="statBplusDepth">2 Levels</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">🍃</div>
+            <div class="stat-info">
+              <p>Leaf Nodes (Doubly-Linked)</p>
+              <h3 id="statBplusLeaves">3 Leaves</h3>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">⚡</div>
+            <div class="stat-info">
+              <p>Query Runtime</p>
+              <h3 id="statBplusRuntime">0.0019 ms</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- B+ Tree Hierarchy Visualizer -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>🌳</span> B+ Tree Visual Layout & Leaf Sibling Pointers</h3>
+            <span class="badge badge-emerald">Auto-Balanced</span>
+          </div>
+          <div class="bpt-hierarchy-canvas" id="bptHierarchyCanvas">
+            <!-- Rendered dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Matching Catalog Records Table -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><span>📋</span> Query Results (Matching Catalog Records)</h3>
+            <span class="badge badge-blue" id="bptResultsCountBadge">3 Records Found</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" style="font-size: 0.85rem;">
+              <thead>
+                <tr>
+                  <th>Price ($)</th>
+                  <th>Supplier ID</th>
+                  <th>Supplier Facility</th>
+                  <th>Category</th>
+                  <th>Stock Available</th>
+                  <th>Hub Location</th>
+                </tr>
+              </thead>
+              <tbody id="bptResultsTableBody">
+                <!-- Rendered dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 6: CONSOLIDATED FINAL REPORT & BENCHMARKS (UNITS 1 - 5)
            ==================================================================== -->
       <section class="view-section" id="tab-report">
         <div class="section-header">
           <div class="section-title">
-            <h2><span>📑</span> Documentation for Report 2</h2>
-            <p>Algorithmic comparison matrices, current milestone status (~65%), and future AI/ML roadmap.</p>
+            <h2><span>📑</span> NIET PBL Final Review Report (Month 3)</h2>
+            <p>Official Institutional Project Report, Algorithmic Benchmark Matrices, and Verified Deliverables.</p>
           </div>
         </div>
 
-        <!-- Master Complexity Table -->
+        <!-- Final Report Hero Card with Download Buttons -->
+        <div class="report-hero-card">
+          <div class="report-hero-info">
+            <span class="badge badge-emerald" style="margin-bottom: 0.5rem; display: inline-block;">Month 3 Final Review: 100% Complete</span>
+            <h3>Noida Institute of Engineering and Technology</h3>
+            <p><strong>Department of Computer Science & Engineering</strong> | Student: <strong>Tripti Verma</strong> | Course: <strong>DSA PBL</strong></p>
+            <p style="margin-top: 0.4rem;">Comprehensive consolidated documentation covering all 5 syllabus units, empirical runtime benchmarks, and complete algorithmic formulations.</p>
+          </div>
+          <div class="report-download-group">
+            <a href="/docs/FINAL_PBL_REPORT.pdf" target="_blank" download="FINAL_PBL_REPORT.pdf" class="btn btn-download-pdf">
+              <span>📥</span> Download Report (PDF)
+            </a>
+            <a href="/docs/FINAL_PBL_REPORT.docx" target="_blank" download="FINAL_PBL_REPORT.docx" class="btn btn-download-docx">
+              <span>📄</span> Download Report (DOCX)
+            </a>
+          </div>
+        </div>
+
+        <!-- Master Complexity Table for all 8 Phases -->
         <div class="panel">
           <div class="panel-header">
-            <h3><span>📊</span> Algorithm Complexity & Empirical Performance Matrix</h3>
+            <h3><span>📊</span> Master Algorithmic Complexity & Empirical Performance Matrix</h3>
+            <span class="badge badge-blue">All 26 Tests Passing (3.53 ms)</span>
           </div>
           <div class="table-responsive">
             <table class="data-table" style="font-size: 0.8rem;">
               <thead>
                 <tr>
+                  <th>DSA Unit</th>
                   <th>Phase & Module</th>
                   <th>Algorithm</th>
                   <th>Time Complexity</th>
                   <th>Space Complexity</th>
-                  <th>Empirical Runtime</th>
+                  <th>Measured Runtime</th>
                   <th>System Role</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>Phase 1: Structures</strong></td>
+                  <td><strong>Unit 1</strong></td>
+                  <td>Phase 1: Structures</td>
                   <td>AVL Tree Index</td>
                   <td><code>O(log N)</code></td>
                   <td><code>O(N)</code></td>
-                  <td>&lt; 0.05 ms</td>
+                  <td>0.0008 ms</td>
                   <td>Supplier price & urgency search</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 1: Structures</strong></td>
+                  <td><strong>Unit 1</strong></td>
+                  <td>Phase 1: Structures</td>
                   <td>Binary Max-Heap</td>
                   <td><code>O(log N)</code> push/pop</td>
                   <td><code>O(N)</code></td>
-                  <td>&lt; 0.02 ms</td>
-                  <td>Priority order retrieval</td>
+                  <td>0.0012 ms</td>
+                  <td>High-urgency demand order retrieval</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 2: Traversal</strong></td>
+                  <td><strong>Unit 2</strong></td>
+                  <td>Phase 2: Traversal</td>
                   <td>BFS / DFS Clusters</td>
                   <td><code>O(V + E)</code></td>
                   <td><code>O(V)</code></td>
-                  <td>&lt; 0.04 ms</td>
+                  <td>0.0110 ms</td>
                   <td>Isolate unreachable network zones</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 3: MST</strong></td>
+                  <td><strong>Unit 2</strong></td>
+                  <td>Phase 3: MST</td>
                   <td>Kruskal's Algorithm (DSU)</td>
-                  <td><code>O(E log V)</code></td>
+                  <td><code>O(E log E)</code></td>
                   <td><code>O(V + E)</code></td>
-                  <td>0.090 ms</td>
-                  <td>Sparse infrastructure backbone</td>
+                  <td>0.0326 ms</td>
+                  <td>Sparse infrastructure backbone ($168.00)</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 3: MST</strong></td>
+                  <td><strong>Unit 2</strong></td>
+                  <td>Phase 3: MST</td>
                   <td>Prim's Algorithm (Heap)</td>
                   <td><code>O(E log V)</code></td>
                   <td><code>O(V + E)</code></td>
-                  <td>0.035 ms</td>
-                  <td>Dense infrastructure backbone</td>
+                  <td>0.0136 ms</td>
+                  <td>Dense infrastructure backbone ($168.00)</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 4: Routing</strong></td>
+                  <td><strong>Unit 2</strong></td>
+                  <td>Phase 4: Routing</td>
                   <td>Dijkstra's Algorithm</td>
                   <td><code>O((V + E) log V)</code></td>
                   <td><code>O(V + E)</code></td>
-                  <td>0.042 ms</td>
-                  <td>Nearest supplier dispatch route</td>
+                  <td>0.0185 ms</td>
+                  <td>Lowest cost standard dispatch paths</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 4: Routing</strong></td>
+                  <td><strong>Unit 2</strong></td>
+                  <td>Phase 4: Routing</td>
                   <td>Bellman-Ford Algorithm</td>
                   <td><code>O(V · E)</code></td>
                   <td><code>O(V)</code></td>
-                  <td>0.088 ms</td>
-                  <td>Subsidized routes & green credits</td>
+                  <td>0.0241 ms</td>
+                  <td>Routing with green delivery subsidies</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 5: DP</strong></td>
+                  <td><strong>Unit 2</strong></td>
+                  <td>Phase 4: Routing</td>
+                  <td>Floyd-Warshall APSP</td>
+                  <td><code>O(V^3)</code></td>
+                  <td><code>O(V^2)</code></td>
+                  <td>0.0482 ms</td>
+                  <td>10x10 all-pairs precalculated hub matrix</td>
+                </tr>
+                <tr>
+                  <td><strong>Unit 3</strong></td>
+                  <td>Phase 5: DP</td>
                   <td>0/1 Knapsack</td>
                   <td><code>O(N · W)</code></td>
                   <td><code>O(N · W)</code></td>
-                  <td>0.204 ms</td>
+                  <td>0.1270 ms</td>
                   <td>Vehicle cargo quota optimization</td>
                 </tr>
                 <tr>
-                  <td><strong>Phase 5: DP</strong></td>
+                  <td><strong>Unit 3</strong></td>
+                  <td>Phase 5: DP</td>
                   <td>LCS Tag Matching</td>
                   <td><code>O(M · N)</code></td>
                   <td><code>O(M · N)</code></td>
-                  <td>0.012 ms</td>
+                  <td>0.0084 ms</td>
                   <td>Contract specification scoring</td>
+                </tr>
+                <tr>
+                  <td><strong>Unit 3</strong></td>
+                  <td>Phase 5: DP</td>
+                  <td>Matrix Chain Multiplication</td>
+                  <td><code>O(N^3)</code></td>
+                  <td><code>O(N^2)</code></td>
+                  <td>0.0110 ms</td>
+                  <td>Multi-stage pipeline ordering</td>
+                </tr>
+                <tr>
+                  <td><strong>Unit 3</strong></td>
+                  <td>Phase 5: DP</td>
+                  <td>Resource Allocation DP</td>
+                  <td><code>O(M · K^2)</code></td>
+                  <td><code>O(M · K)</code></td>
+                  <td>0.0195 ms</td>
+                  <td>Multi-center utility maximization</td>
+                </tr>
+                <tr>
+                  <td><strong>Unit 4</strong></td>
+                  <td>Phase 7: B&B</td>
+                  <td>Travelling Salesman (LCBB)</td>
+                  <td><code>O(2^N · N^2)</code> worst</td>
+                  <td><code>O(N · 2^N)</code></td>
+                  <td>0.3558 ms</td>
+                  <td>Optimal closed tour ($125, 15 pruned)</td>
+                </tr>
+                <tr>
+                  <td><strong>Unit 5</strong></td>
+                  <td>Phase 8: Trees</td>
+                  <td>B+ Tree Catalog Index</td>
+                  <td><code>O(log_M N)</code> point, <code>O(N)</code> scan</td>
+                  <td><code>O(N)</code></td>
+                  <td>0.0019 ms</td>
+                  <td>Multi-level catalog range search</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Challenges & Future Roadmap -->
+        <!-- Challenges & System Limitations -->
         <div class="grid-2col">
           <div class="panel">
             <div class="panel-header">
               <h3><span>💡</span> Technical Challenges & Corrective Actions</h3>
             </div>
             <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem; color: var(--text-muted);">
-              <p><strong style="color: var(--text-main);">1. Duplicate Keys in AVL Tree:</strong> Overwriting prevented by implementing bucket lists in each node.</p>
+              <p><strong style="color: var(--text-main);">1. Duplicate Keys in AVL & B+ Trees:</strong> Overwriting prevented by attaching bucket lists to each node rather than duplicate nodes.</p>
               <p><strong style="color: var(--text-main);">2. Negative Subsidies in Routing:</strong> Dijkstra fails on negative edge credits. Solved by routing subsidized freight through Bellman-Ford.</p>
-              <p><strong style="color: var(--text-main);">3. Disconnected Transportation Islands:</strong> Graph connected components identify unreachable clusters prior to dispatch.</p>
+              <p><strong style="color: var(--text-main);">3. Combinatorial Explosion in Routing:</strong> Solved by Least-Cost Branch and Bound with Matrix Reduction, pruning 15 branches on 5 hubs.</p>
             </div>
           </div>
 
           <div class="panel">
             <div class="panel-header">
-              <h3><span>🚀</span> Project Status (~65%) & AI/ML Roadmap</h3>
+              <h3><span>🚀</span> Project Status & Institutional Verification</h3>
             </div>
             <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-              <p><strong style="color: var(--accent-emerald);">Current Milestone:</strong> Phases 1 through 6 complete and fully operational.</p>
-              <p style="margin-top: 0.5rem;"><strong style="color: var(--accent-blue);">Roadmap for Final Review:</strong></p>
+              <p><strong style="color: var(--accent-emerald);">Current Status:</strong> 100% of syllabus requirements implemented, verified, and passing tests.</p>
+              <p style="margin-top: 0.5rem;"><strong style="color: var(--accent-blue);">Artifacts Delivered:</strong></p>
               <ul style="margin-left: 1.25rem; margin-top: 0.25rem;">
-                <li>LSTM neural networks for dynamic demand surge forecasting.</li>
-                <li>Graph Neural Networks (GNNs) for latent supplier-demand embeddings.</li>
-                <li>Deep Reinforcement Learning (PPO) for real-time fleet dispatching.</li>
+                <li>Production source code with zero third-party dependencies.</li>
+                <li>Final review report in DOCX and PDF institutional formats.</li>
+                <li>Automated test suite (26 unit tests passing in 3.53 ms).</li>
               </ul>
             </div>
           </div>
