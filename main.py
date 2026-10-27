@@ -121,22 +121,7 @@ def interactive_menu():
             run_all_phases()
         elif choice == "8":
             import unittest
-            from tests.test_all import (
-                TestPhase1DataStructures,
-                TestPhase2Graph,
-                TestPhase3MST,
-                TestPhase4ShortestPath,
-                TestPhase5DynamicProgramming,
-                TestPhase6IntegratedEngine
-            )
-            suite = unittest.TestLoader().loadTestsFromNames([
-                'tests.test_all.TestPhase1DataStructures',
-                'tests.test_all.TestPhase2Graph',
-                'tests.test_all.TestPhase3MST',
-                'tests.test_all.TestPhase4ShortestPath',
-                'tests.test_all.TestPhase5DynamicProgramming',
-                'tests.test_all.TestPhase6IntegratedEngine'
-            ])
+            suite = unittest.defaultTestLoader.discover('tests', pattern='test_*.py')
             runner = unittest.TextTestRunner(verbosity=2)
             runner.run(suite)
         elif choice == "9":

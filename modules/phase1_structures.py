@@ -6,7 +6,7 @@ Phase 1: Core Data Structures
 
 import os
 import sys
-from typing import Any, List, Optional, Tuple, Callable
+from typing import Any, List, Optional, Tuple
 
 # Ensure project root is in sys.path
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

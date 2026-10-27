@@ -10,7 +10,7 @@ Phase 5: Dynamic Programming Applications
 import os
 import sys
 import time
-from typing import List, Tuple, Dict, Any, Optional
+from typing import List, Tuple, Optional
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if PROJECT_ROOT not in sys.path:

@@ -1,11 +1,39 @@
+# Byte-compiled / optimized files
 __pycache__/
 *.py[cod]
 *$py.class
-*.log
-.vscode/
-.idea/
+*.so
+
+# Environments & Dependencies
 .env
+.env.local
+.env.*.local
 .venv/
 env/
 venv/
 ENV/
+build/
+dist/
+*.egg-info/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Editor & IDE metadata
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Vercel Deployment Artifacts
+.vercel/
