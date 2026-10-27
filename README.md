@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-16%20Passed-brightgreen.svg)](#6-testing--verification)
+[![Tests](https://img.shields.io/badge/Tests-26%20Passed-brightgreen.svg)](#6-testing--verification)
 [![Vercel Deployment](https://img.shields.io/badge/Deploy-Vercel-black.svg)](https://vercel.com/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](#4-docker-deployment)
 
@@ -12,11 +12,11 @@
 
 ## Overview
 
-This repository contains the complete production-grade implementation for the **Data Structures and Algorithms Project-Based Learning (DSA PBL)**. The system addresses the complex problem of matching multi-attribute demand orders with supplier catalogs, identifying connected regional logistics networks, computing lowest-cost dispatch paths, creating minimum infrastructure spanning trees, and optimizing vehicle cargo capacity through dynamic programming.
+This repository contains the complete production-grade implementation for the **Data Structures and Algorithms Project-Based Learning (DSA PBL)**. The system addresses the complex problem of matching multi-attribute demand orders with supplier catalogs, identifying connected regional logistics networks, computing lowest-cost dispatch paths, creating minimum infrastructure spanning trees, optimizing vehicle cargo capacity through dynamic programming, solving multi-stop delivery tours via Branch & Bound (TSP), and indexing high-throughput product catalogs using B+ Trees.
 
 The application features:
 1. **Interactive Visual Dashboard (Web UI)**: Canvas-based visualizers for Network Graphs, Minimum Spanning Trees (MST), AVL Trees, Binary Heaps, and Dynamic Programming matrices.
-2. **Modular Algorithmic Engine (Python Core)**: 6 discrete phases covering self-balancing trees, priority queues, graph algorithms, shortest paths, dynamic programming, and unified multi-criteria matching.
+2. **Modular Algorithmic Engine (Python Core)**: 8 discrete phases covering self-balancing trees, priority queues, graph algorithms, shortest paths, dynamic programming, unified multi-criteria matching, TSP branch and bound, and B+ tree indexing.
 3. **Dual-Mode Deployment**:
    - **Local & Docker Server**: Built-in HTTP server (`server.py`) serving both static assets and API routes.
    - **Cloud Serverless (Vercel)**: Configured with `vercel.json` and `api/index.py` serverless function handler.
@@ -41,13 +41,16 @@ DSA_PBL_PROJECT/
 │   ├── __init__.py
 │   └── sample_data.py             # Realistic multi-sector demand, supply & network datasets
 ├── docs/
-│   ├── REPORT_2.md                # Comprehensive Milestone Report 2 (algorithms & benchmarks)
+│   ├── FINAL_PBL_REPORT.docx      # Institutional Final Review Word Report
+│   ├── FINAL_PBL_REPORT.pdf       # Institutional Final Review PDF Report
+│   ├── FINAL_PBL_REPORT.md        # Comprehensive Final Markdown Report
+│   ├── REPORT_2.md                # Milestone 2 Progress Report
 │   └── slides/                    # Archived lecture presentations
 │       ├── README.md              # Slide deck catalog
 │       ├── Unit-1_Trees.pptx      # Unit 1: Trees & AVL Trees
 │       ├── Unit-2_DSA.pptx        # Unit 2: Graphs, Spanning Trees & Routing
 │       └── Unit-3_DSA.pptx        # Unit 3: Dynamic Programming
-├── main.py                        # Master CLI driver & interactive runner
+├── main.py                        # Master CLI driver & interactive runner (Phases 1-8)
 ├── modules/
 │   ├── __init__.py
 │   ├── api_service.py             # Unified API handler and dispatch service
@@ -56,11 +59,13 @@ DSA_PBL_PROJECT/
 │   ├── phase3_mst.py              # Kruskal's & Prim's Minimum Spanning Trees (with DSU)
 │   ├── phase4_shortest_path.py    # Dijkstra, Bellman-Ford (negative subsidies), Floyd-Warshall
 │   ├── phase5_dp.py               # 0/1 Knapsack, LCS Preference Matching, MCM, Resource Allocation
-│   └── phase6_matching_engine.py  # End-to-end Multi-Criteria Matching Engine
+│   ├── phase6_matching_engine.py  # End-to-end Multi-Criteria Matching Engine
+│   ├── phase7_tsp_branch_bound.py # Unit 4: TSP using Branch and Bound (LCBB)
+│   └── phase8_bplus_tree.py       # Unit 5: B+ Tree Catalog Indexing Engine
 ├── server.py                      # Local & container HTTP development server
 ├── tests/
 │   ├── __init__.py
-│   ├── test_all.py                # Algorithmic unit tests for Phases 1 through 6
+│   ├── test_all.py                # Algorithmic unit tests for Phases 1 through 8
 │   └── test_api.py                # API contract and endpoint unit tests
 └── web/
     ├── app.js                     # Vanilla modern JavaScript (ES6+) visualization engine
