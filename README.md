@@ -41,19 +41,26 @@ python server.py 8000
 ```
 Then navigate to: **`http://localhost:8000/`** (or open [`web/index.html`](file:///c:/Users/Tripati%20Verma/OneDrive%20-%20Noida%20Institute%20of%20Engineering%20and%20Technology/Documents/DSA_PBL_PROJECT/web/index.html) directly in any web browser).
 
-### 2. Interactive Console CLI
+### 2. Deploy to Vercel
+This repository is pre-configured with [`vercel.json`](file:///c:/Users/Tripati%20Verma/OneDrive%20-%20Noida%20Institute%20of%20Engineering%20and%20Technology/Documents/DSA_PBL_PROJECT/vercel.json) and [`api/index.py`](file:///c:/Users/Tripati%20Verma/OneDrive%20-%20Noida%20Institute%20of%20Engineering%20and%20Technology/Documents/DSA_PBL_PROJECT/api/index.py) (Serverless Python Functions):
+1. Push your repository to GitHub.
+2. Import the repository into **[Vercel](https://vercel.com/)**.
+3. Keep the **Root Directory** as `./` (default) and Framework Preset as **Other**.
+4. Click **Deploy**. Vercel will automatically serve the frontend from `/web` and execute the Python DSA algorithms via serverless endpoints under `/api`.
+
+### 3. Interactive Console CLI
 To launch the interactive command-line interface:
 ```bash
 python main.py
 ```
 
-### 3. Run All Phases Sequentially (Console)
+### 4. Run All Phases Sequentially (Console)
 To execute the automated pipeline from Phase 1 through Phase 6 with full logs:
 ```bash
 python main.py --all
 ```
 
-### 3. Run Specific Phases
+### 5. Run Specific Phases
 ```bash
 python main.py --phase 1    # Core Data Structures (AVL & Heap)
 python main.py --phase 2    # Graph Traversal & Connectivity (BFS/DFS/Clusters)
@@ -63,7 +70,7 @@ python main.py --phase 5    # Dynamic Programming Applications (Knapsack, LCS, M
 python main.py --phase 6    # Prototype Integration (Integrated Matching Engine)
 ```
 
-### 4. Run Automated Test Suite
+### 6. Run Automated Test Suite
 To execute all 10 unit and integration tests:
 ```bash
 python -m unittest tests/test_all.py
