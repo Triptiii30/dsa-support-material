@@ -23,6 +23,8 @@ from modules.phase3_mst import run_phase3_demo
 from modules.phase4_shortest_path import run_phase4_demo
 from modules.phase5_dp import run_phase5_demo
 from modules.phase6_matching_engine import run_phase6_integrated_demo
+from modules.phase7_tsp_branch_bound import run_phase7_demo
+from modules.phase8_bplus_tree import run_phase8_demo
 
 
 def print_header():
@@ -36,6 +38,7 @@ def print_header():
                                                        /_/   /_/      /____/          
   DEMAND-SUPPLY MATCHING PROTOTYPE | DSA PBL PROJECT
   Self-Balancing Trees * Priority Queues * Graphs * Shortest Paths * Dynamic Programming
+  Branch & Bound (TSP) * B+ Tree Catalog Indexing
 ========================================================================================
 """)
 
@@ -60,6 +63,9 @@ Phase 5: 0/1 Knapsack DP      | O(N * W)                   | O(N * W)         | 
 Phase 5: LCS Preference DP    | O(M * N)                   | O(M * N)         | Specification tag contract alignment
 Phase 5: Matrix Chain DP      | O(N^3)                     | O(N^2)           | Multi-stage logistics pipeline order
 Phase 5: Resource Allocation  | O(M * K^2)                 | O(M * K)         | Multi-center utility maximization
+Phase 6: Multi-Criteria Match | O(D * (log S + V log V))   | O(D + S + V + E) | End-to-end multi-criteria pipeline
+Phase 7: TSP Branch & Bound   | O(2^N * N^2) worst, LCBB   | O(N * 2^N)       | Optimal multi-stop closed delivery tour
+Phase 8: B+ Tree Range/Search | O(log_M N) search, O(N) tr | O(N)             | High-throughput catalog range queries
 ========================================================================================
 """)
 
@@ -84,6 +90,12 @@ def run_all_phases():
     print("\n[>>>] Running Phase 6: Prototype Integration")
     run_phase6_integrated_demo()
 
+    print("\n[>>>] Running Phase 7: Unit 4 - TSP Branch & Bound Route Optimization")
+    run_phase7_demo()
+
+    print("\n[>>>] Running Phase 8: Unit 5 - B+ Tree Supplier & Product Catalog Indexing")
+    run_phase8_demo()
+
     print_complexity_summary()
 
 
@@ -97,12 +109,14 @@ def interactive_menu():
         print("  [4] Phase 4: Shortest Path Algorithms (Dijkstra, Bellman-Ford, Floyd-Warshall)")
         print("  [5] Phase 5: Dynamic Programming (0/1 Knapsack, LCS, MCM, Resource Allocation)")
         print("  [6] Phase 6: Prototype Integration (End-to-End Demand-Supply Matching Engine)")
-        print("  [7] Run All Phases Sequentially (1 to 6)")
-        print("  [8] Run Complete Automated Test Suite (Unit & Integration Tests)")
-        print("  [9] Display Complexity & Performance Benchmark Summary")
+        print("  [7] Phase 7: Unit 4 - Travelling Salesman Problem (Branch & Bound LCBB)")
+        print("  [8] Phase 8: Unit 5 - B+ Tree Catalog Indexing (Splits, Search, Range Queries)")
+        print("  [A] Run All Phases Sequentially (1 to 8)")
+        print("  [T] Run Complete Automated Test Suite (Unit & Integration Tests)")
+        print("  [S] Display Complexity & Performance Benchmark Summary")
         print("  [0] Exit")
 
-        choice = input("\nEnter your choice [0-9]: ").strip()
+        choice = input("\nEnter your choice [0-8, A, T, S]: ").strip().upper()
         print()
 
         if choice == "1":
@@ -118,25 +132,29 @@ def interactive_menu():
         elif choice == "6":
             run_phase6_integrated_demo()
         elif choice == "7":
-            run_all_phases()
+            run_phase7_demo()
         elif choice == "8":
+            run_phase8_demo()
+        elif choice == "A" or choice == "ALL":
+            run_all_phases()
+        elif choice == "T" or choice == "TEST":
             import unittest
             suite = unittest.defaultTestLoader.discover('tests', pattern='test_*.py')
             runner = unittest.TextTestRunner(verbosity=2)
             runner.run(suite)
-        elif choice == "9":
+        elif choice == "S" or choice == "SUMMARY":
             print_complexity_summary()
         elif choice == "0":
             print("Exiting Demand-Supply Matching Prototype. Goodbye!")
             break
         else:
-            print("[!] Invalid option. Please enter a number between 0 and 9.")
+            print("[!] Invalid option. Please enter a valid menu choice.")
 
 
 def main():
     parser = argparse.ArgumentParser(description="Demand-Supply Matching Prototype CLI")
-    parser.add_argument("--all", action="store_true", help="Run all phases sequentially")
-    parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5, 6], help="Run a specific phase")
+    parser.add_argument("--all", action="store_true", help="Run all phases sequentially (1 to 8)")
+    parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5, 6, 7, 8], help="Run a specific phase")
     parser.add_argument("--test", action="store_true", help="Run automated test suite")
     parser.add_argument("--summary", action="store_true", help="Print complexity summary")
 
@@ -156,6 +174,10 @@ def main():
         run_phase5_demo()
     elif args.phase == 6:
         run_phase6_integrated_demo()
+    elif args.phase == 7:
+        run_phase7_demo()
+    elif args.phase == 8:
+        run_phase8_demo()
     elif args.test:
         import unittest
         suite = unittest.defaultTestLoader.discover('tests', pattern='test_*.py')

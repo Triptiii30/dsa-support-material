@@ -150,6 +150,62 @@ def get_shortest_path(source: str = "North_Hub", algo: str = "dijkstra") -> Dict
         }
 
 
+from modules.phase7_tsp_branch_bound import solve_logistics_tsp
+from modules.phase8_bplus_tree import build_catalog_bplus_tree
+
+
+def get_tsp_route(hubs: Optional[List[str]] = None) -> Dict[str, Any]:
+    """Computes optimal closed multi-stop delivery tour using TSP Branch and Bound."""
+    return solve_logistics_tsp(hubs)
+
+
+def get_bplus_catalog(
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
+    search_price: Optional[float] = None
+) -> Dict[str, Any]:
+    """Queries supplier catalog indexed by B+ Tree."""
+    tree = build_catalog_bplus_tree(SUPPLY_RECORDS, key_field="unit_price", order=3)
+    summary = tree.get_structure_summary()
+
+    if search_price is not None:
+        matches = tree.search(search_price)
+        return {
+            "query_type": "exact_search",
+            "search_price": search_price,
+            "matches": matches,
+            "tree_summary": summary
+        }
+
+    if min_price is not None and max_price is not None:
+        range_res = tree.range_query(min_price, max_price)
+        flattened = []
+        for price, recs in range_res:
+            for r in recs:
+                flattened.append({"price": price, "record": r})
+        return {
+            "query_type": "range_query",
+            "min_price": min_price,
+            "max_price": max_price,
+            "matches": flattened,
+            "tree_summary": summary
+        }
+
+    # Default: Full ordered traversal
+    ordered = tree.ordered_traversal()
+    flattened = []
+    for price, recs in ordered:
+        for r in recs:
+            flattened.append({"price": price, "record": r})
+
+    return {
+        "query_type": "ordered_traversal",
+        "matches": flattened,
+        "tree_summary": summary,
+        "tree_hierarchy": tree.display_tree()
+    }
+
+
 def dispatch_api_request(path: str, query_params: Dict[str, List[str]]) -> Tuple[int, Dict[str, Any]]:
     """
     Unified router for /api endpoints.
@@ -176,5 +232,16 @@ def dispatch_api_request(path: str, query_params: Dict[str, List[str]]) -> Tuple
         source = query_params.get("source", ["North_Hub"])[0]
         algo = query_params.get("algo", ["dijkstra"])[0]
         return 200, get_shortest_path(source=source, algo=algo)
+
+    if clean_path == "/api/tsp-route":
+        hubs_param = query_params.get("hubs")
+        hubs = hubs_param[0].split(",") if hubs_param and hubs_param[0] else None
+        return 200, get_tsp_route(hubs)
+
+    if clean_path == "/api/bplus-catalog":
+        min_p = float(query_params["min_price"][0]) if "min_price" in query_params else None
+        max_p = float(query_params["max_price"][0]) if "max_price" in query_params else None
+        search_p = float(query_params["search_price"][0]) if "search_price" in query_params else None
+        return 200, get_bplus_catalog(min_price=min_p, max_price=max_p, search_price=search_p)
 
     return 404, {"error": f"API endpoint '{clean_path}' not found"}

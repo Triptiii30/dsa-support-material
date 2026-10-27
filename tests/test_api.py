@@ -70,6 +70,42 @@ class TestApiService(unittest.TestCase):
         self.assertFalse(data["has_negative_cycle"])
         self.assertIn("results", data)
 
+    def test_tsp_route_endpoint(self):
+        code, data = dispatch_api_request("/api/tsp-route", {})
+        self.assertEqual(code, 200)
+        self.assertIn("best_cost", data)
+        self.assertIn("best_path_names", data)
+        self.assertIn("selected_locations", data)
+        self.assertIn("branches_pruned", data)
+        self.assertGreater(data["best_cost"], 0.0)
+
+    def test_bplus_catalog_endpoint(self):
+        # 1. Ordered traversal
+        code, data = dispatch_api_request("/api/bplus-catalog", {})
+        self.assertEqual(code, 200)
+        self.assertEqual(data["query_type"], "ordered_traversal")
+        self.assertGreater(len(data["matches"]), 0)
+
+        # 2. Range query
+        code, data = dispatch_api_request(
+            "/api/bplus-catalog",
+            {"min_price": ["35.0"], "max_price": ["120.0"]}
+        )
+        self.assertEqual(code, 200)
+        self.assertEqual(data["query_type"], "range_query")
+        for m in data["matches"]:
+            self.assertTrue(35.0 <= m["price"] <= 120.0)
+
+        # 3. Exact search
+        code, data = dispatch_api_request(
+            "/api/bplus-catalog",
+            {"search_price": ["88.0"]}
+        )
+        self.assertEqual(code, 200)
+        self.assertEqual(data["query_type"], "exact_search")
+        self.assertEqual(len(data["matches"]), 1)
+        self.assertEqual(data["matches"][0]["supplier"], "Titan Heavy Foundries")
+
     def test_not_found_endpoint(self):
         code, data = dispatch_api_request("/api/unknown-endpoint", {})
         self.assertEqual(code, 404)

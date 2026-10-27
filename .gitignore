@@ -37,3 +37,7 @@ desktop.ini
 
 # Vercel Deployment Artifacts
 .vercel/
+
+# Temporary scratch scripts
+scratch/
+

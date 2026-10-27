@@ -175,6 +175,17 @@ class TestPhase5DynamicProgramming(unittest.TestCase):
         self.assertEqual(max_u, 30.0)  # Center 0 gets 1 (10) + Center 1 gets 2 (20) = 30
 
 
+from modules.phase7_tsp_branch_bound import (
+    solve_tsp_branch_and_bound,
+    solve_logistics_tsp,
+    reduce_matrix
+)
+from modules.phase8_bplus_tree import (
+    BPlusTree,
+    build_catalog_bplus_tree
+)
+
+
 class TestPhase6IntegratedEngine(unittest.TestCase):
     def test_engine_end_to_end(self):
         engine = DemandSupplyMatchingEngine()
@@ -194,5 +205,104 @@ class TestPhase6IntegratedEngine(unittest.TestCase):
         self.assertLessEqual(sum(m.allocated_qty for m in sel), 150)
 
 
+class TestPhase7TSPBranchAndBound(unittest.TestCase):
+    def test_4_city_known_optimal(self):
+        inf = float("inf")
+        matrix_4 = [
+            [inf, 10.0, 15.0, 20.0],
+            [10.0, inf, 35.0, 25.0],
+            [15.0, 35.0, inf, 30.0],
+            [20.0, 25.0, 30.0, inf]
+        ]
+        res = solve_tsp_branch_and_bound(matrix_4)
+        self.assertEqual(res["best_cost"], 80.0)
+        self.assertEqual(len(res["best_path_indices"]), 5)  # 4 cities + return to start
+        self.assertEqual(res["best_path_indices"][0], res["best_path_indices"][-1])
+        self.assertLessEqual(res["initial_lower_bound"], 80.0)
+        self.assertGreater(res["branches_pruned"], 0)
+
+    def test_5_city_textbook_optimal(self):
+        inf = float("inf")
+        matrix_5 = [
+            [inf, 20.0, 30.0, 10.0, 11.0],
+            [15.0, inf, 16.0, 4.0, 2.0],
+            [3.0, 5.0, inf, 2.0, 4.0],
+            [19.0, 6.0, 18.0, inf, 3.0],
+            [16.0, 4.0, 7.0, 16.0, inf]
+        ]
+        res = solve_tsp_branch_and_bound(matrix_5)
+        self.assertEqual(res["best_cost"], 28.0)
+        self.assertEqual(len(res["best_path_indices"]), 6)  # 5 cities + return to start
+        self.assertEqual(res["best_path_indices"][0], res["best_path_indices"][-1])
+        self.assertLessEqual(res["initial_lower_bound"], 28.0)
+        self.assertGreater(res["branches_pruned"], 0)
+
+    def test_logistics_tsp_route(self):
+        hubs = ["North_Hub", "Airport_Logistics_Center", "Central_Square", "Tech_Park", "East_District"]
+        res = solve_logistics_tsp(hubs)
+        self.assertGreater(res["best_cost"], 0.0)
+        self.assertEqual(len(res["best_path_names"]), len(hubs) + 1)
+        self.assertEqual(res["best_path_names"][0], res["best_path_names"][-1])
+        self.assertEqual(len(res["route_legs"]), len(hubs))
+        self.assertLessEqual(res["initial_lower_bound"], res["best_cost"])
+        self.assertGreater(res["branches_pruned"], 0)
+
+
+class TestPhase8BPlusTree(unittest.TestCase):
+    def test_bplus_insert_and_node_splits(self):
+        tree = BPlusTree(order=3)
+        keys = [50, 20, 80, 10, 30, 70, 90, 40, 60]
+        for k in keys:
+            tree.insert(k, f"Val_{k}")
+
+        summary = tree.get_structure_summary()
+        self.assertGreater(summary["depth"], 1)
+        self.assertGreater(summary["internal_nodes"], 0)
+        self.assertGreater(summary["leaf_nodes"], 1)
+
+    def test_bplus_search_exact_and_missing(self):
+        tree = BPlusTree(order=3)
+        tree.insert(100, {"name": "Product_100"})
+        tree.insert(200, {"name": "Product_200"})
+
+        found = tree.search(100)
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0]["name"], "Product_100")
+
+        missing = tree.search(999)
+        self.assertEqual(len(missing), 0)
+
+    def test_bplus_ordered_traversal(self):
+        tree = BPlusTree(order=3)
+        keys = [45, 12, 89, 34, 7, 65, 23, 90, 56]
+        for k in keys:
+            tree.insert(k, k)
+
+        traversal = tree.ordered_traversal()
+        extracted_keys = [k for k, _ in traversal]
+        self.assertEqual(extracted_keys, sorted(keys))
+
+    def test_bplus_range_query(self):
+        tree = BPlusTree(order=3)
+        for val in range(10, 101, 10):
+            tree.insert(val, f"Item_{val}")
+
+        # Range query [25, 75] -> expected [30, 40, 50, 60, 70]
+        res = tree.range_query(25, 75)
+        res_keys = [k for k, _ in res]
+        self.assertEqual(res_keys, [30, 40, 50, 60, 70])
+
+    def test_bplus_catalog_indexing(self):
+        tree = build_catalog_bplus_tree(SUPPLY_RECORDS, key_field="unit_price", order=3)
+        summary = tree.get_structure_summary()
+        self.assertEqual(summary["total_records"], len(SUPPLY_RECORDS))
+
+        # Search for known price 88.0 (Titan Heavy Foundries)
+        found = tree.search(88.0)
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0]["supplier"], "Titan Heavy Foundries")
+
+
 if __name__ == "__main__":
     unittest.main()
+
